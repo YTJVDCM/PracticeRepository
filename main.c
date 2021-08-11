@@ -25,6 +25,8 @@
 
 void input(char *in); //INT_MAX文字までの文字を入力できる関数
 
+int input_i(); //数字を入力する関数(安全策)
+
 struct _MONSTER {
     char *name; //名前
     int hp; //HP
@@ -46,7 +48,6 @@ int main(){
     int choose;
 
     char *name;
-    char *tmp;
     int hp=DEFAULT_HP;//プレイヤーのHP(defineで定義)
     int atk=DEFAULT_ATK;//プレイヤーの攻撃力(defineで定義)
 
@@ -74,11 +75,7 @@ int main(){
             printf("%s はどうする\n",name);
             printf("0.たたかう\t1.まほう\t2.どうぐ\t3.にげる\n");
 
-            //割と安全な数値入力(安全策);
-            tmp = (char*)malloc(sizeof(char));
-            input(tmp);
-            choose = (tmp[0]-'0');
-            free(tmp);
+            choose = input_i();
 
             switch(choose){
                 case 0:
@@ -148,6 +145,17 @@ void input(char *in){
         in[i]=0;
         in[i-1]=ic;
     }
+}
+
+int input_i(){
+    int ret;
+    char *tmp;
+
+    tmp = (char*)malloc(sizeof(char));
+    input(tmp);
+    ret = (tmp[0]-'0');
+    free(tmp);
+    return ret;
 }
 
 void attack(char *name,int atk,monster *monster_data){
