@@ -46,6 +46,7 @@ int main(){
     int choose;
 
     char *name;
+    char *tmp;
     int hp=DEFAULT_HP;//プレイヤーのHP(defineで定義)
     int atk=DEFAULT_ATK;//プレイヤーの攻撃力(defineで定義)
 
@@ -72,7 +73,13 @@ int main(){
             printf("%s の残りHP : %d\n",name,hp);
             printf("%s はどうする\n",name);
             printf("0.たたかう\t1.まほう\t2.どうぐ\t3.にげる\n");
-            scanf("%d",&choose);
+
+            //割と安全な数値入力(安全策);
+            tmp = (char*)malloc(sizeof(char));
+            input(tmp);
+            choose = (tmp[0]-'0');
+            free(tmp);
+
             switch(choose){
                 case 0:
                     attack(name,atk,&choosed_monster);
